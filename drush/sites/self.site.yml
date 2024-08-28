@@ -12,3 +12,7 @@
 #  user: www-admin
 #  root: /path/to/drupal
 #  uri: http://stage.example.com
+
+"*":
+  root: /var/www/html
+  uri: http://${env-name}.launchpad.local.computer

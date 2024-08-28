@@ -926,6 +926,8 @@ try {
       $conn->query("CREATE DATABASE IF NOT EXISTS {$database} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
       $conn->query("GRANT ALL ON $database.* TO '$new_username'@'%' IDENTIFIED BY '$new_password'");
     }
+
+    $config['system.site']['site_name'] = 'HELLO NURSE!';
   }
 
 } catch (PDOException $e) {
