@@ -898,4 +898,47 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
   require $ddev_settings;
 }
 
+try {
+  $database_hostname = $databases['default']['default']['host'];
+  $username = 'db';
+  $password = 'db';
+  $database = 'db';
+  $uri = $_SERVER['HTTP_HOST'];
 
+  // Lookup site based on URI.
+  $conn = new PDO("mysql:host=$database_hostname;dbname=$database", $username, $password);
+  $site_data = $conn->query("SELECT * FROM site__site_uri s LEFT JOIN operations_site os ON s.entity_id = os.sid WHERE site_uri_value = 'http://{$uri}' ORDER BY entity_id DESC")->fetch();
+
+  // Set database name, if it exists.
+  if (!empty($site_data['database_name'])) {
+    $database = $site_data['database_name'];
+    $new_username = 'db';
+    $new_password = 'db';
+    $databases['default']['default']['database'] = $site_data['database_name'];
+
+    // @TODO: Run this when a hosted_site entity is created.
+    if (!empty($_GET['create'])) {
+      $root_username = 'root';
+      $root_password = 'root';
+
+      $conn = new PDO("mysql:host=$database_hostname", $root_username, $root_password);
+
+      $conn->query("CREATE DATABASE IF NOT EXISTS {$database} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+      $conn->query("GRANT ALL ON $database.* TO '$new_username'@'%' IDENTIFIED BY '$new_password'");
+    }
+  }
+
+} catch (PDOException $e) {
+
+  // If unable to create or grant, don't change anything.
+  throw $e;
+}
+
+$site = $_SERVER['HTTP_HOST'];
+$settings['config_sync_directory'] = '../config/' . $site . '/sync';
+$settings['file_public_path'] = 'files/' . $site;
+$settings['file_private_path'] = '../private/' . $site;
+$settings['file_temp_path'] = '/tmp/';
+
+#make sure this is different for every site using this codebase.
+$settings['hash_salt'] .= $site;
