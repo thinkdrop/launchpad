@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c041446a2bff682e7f83fc141cc88741",
+    "content-hash": "c2183e197da427f4647d948f89738986",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1696,6 +1696,26 @@
             "homepage": "https://www.drupal.org/project/eva",
             "support": {
                 "source": "https://git.drupalcode.org/project/eva"
+            }
+        },
+        {
+            "name": "drupal/hosting_site",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "src/Modules/hosting_site",
+                "reference": "eb1e01b93fee80e08caa9bbe86dd6eacbc42ecf6"
+            },
+            "type": "drupal-module",
+            "authors": [
+                {
+                    "name": "Jon Pugh",
+                    "email": "jon@thinkdrop.net"
+                }
+            ],
+            "description": "Create and manage hosted sites.",
+            "transport-options": {
+                "relative": true
             }
         },
         {
@@ -12400,7 +12420,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "drupal/site": 5
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
