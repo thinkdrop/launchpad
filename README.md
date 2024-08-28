@@ -1,5 +1,5 @@
 # Launchpad
-## Hosted Sites Manager
+## Multisite Manager
 
 Experiment in using Site.module for launching new multisites.
 
