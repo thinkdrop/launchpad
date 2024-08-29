@@ -954,6 +954,16 @@ $settings['file_temp_path'] = '/tmp/';
 #make sure this is different for every site using this codebase.
 $settings['hash_salt'] .= $site;
 
+// Setup "creator" drupal database credentials
+// @TODO: Store this in config.
+$databases['creator']['default'] = $databases['default']['default'];
+$databases['creator']['default']['username'] = 'root';
+$databases['creator']['default']['password'] = 'root';
+
+// Remove "database" key so we can use $database->createDatabase($new_database_name);
+unset($databases['creator']['default']['database']);
+
+
 /**
  * Trim a URL down to match HTTP_HOST.
  * @param $url
