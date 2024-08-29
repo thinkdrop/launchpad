@@ -63,7 +63,6 @@ final class DatabaseExistsConstraintValidator extends ConstraintValidator {
       // Cannot access. Try to create.
       try {
         $query = $database->query("GRANT ALL ON $new_database_name.* TO '$new_database_user'@'%' IDENTIFIED BY '$new_database_password'");
-        \Drupal::messenger()->addMessage($query->getQueryString());
         $query->execute();
         \Drupal::messenger()->addMessage(t("User was granted access to :database.", [
           ':database' => $new_database_name,
