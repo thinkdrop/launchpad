@@ -903,6 +903,9 @@ $site_manager_uri = trimUrl(getenv('SITE_MANAGER_API_URL') ?: 'launchpad.local.c
 
 $config['site.settings']['site_manager']['api_url'] = $site_manager_uri;
 
+// Set multisite hosting tld.
+$config['hosting_site']['multisite_tld'] = 'launchpad.local.computer';
+
 // Currently requested URL.
 $uri = trimUrl($_SERVER['HTTP_HOST']);
 
