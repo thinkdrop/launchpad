@@ -6,12 +6,12 @@ namespace Drupal\hosting_site\Entity\SiteEntity;
 
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
-use Drupal\site\Entity\Bundle\WebAppSiteBundle;
+use Drupal\site\Entity\Bundle\DrupalSiteBundle;
 
 /**
  * A bundle class for site entities.
  */
-final class HostedSite extends WebAppSiteBundle {
+final class HostedDrupalSite extends DrupalSiteBundle {
 
   /**
    * @inheritDoc
@@ -30,6 +30,8 @@ final class HostedSite extends WebAppSiteBundle {
       ->setDefaultValueCallback('Drupal\hosting_site\Entity\SiteEntity\HostedSite::defaultDatabaseName')
   ;
 
+    // Make install profile editable.
+    $fields['drupal_install_profile']->setDisplayConfigurable('form', TRUE);
     return $fields;
   }
 

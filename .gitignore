@@ -10,11 +10,15 @@
 /web/profiles/contrib/
 /web/libraries/
 
+/config/*/sync/.htaccess
+
 # Ignore sensitive information.
 /web/sites/*/settings.php
 
 # Ignore Drupal's file directory.
 /web/sites/*/files/
+/web/files
+/private
 
 # Ignore SimpleTest multi-site environment.
 /web/sites/simpletest
