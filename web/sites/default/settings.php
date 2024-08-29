@@ -898,42 +898,51 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
   require $ddev_settings;
 }
 
-try {
-  $database_hostname = $databases['default']['default']['host'];
-  $username = 'db';
-  $password = 'db';
-  $database = 'db';
-  $uri = $_SERVER['HTTP_HOST'];
+// Configure Site to connect to Site Manager.
+$site_manager_uri = trimUrl(getenv('SITE_MANAGER_API_URL') ?: 'launchpad.local.computer');
 
-  // Lookup site based on URI.
-  $conn = new PDO("mysql:host=$database_hostname;dbname=$database", $username, $password);
-  $site_data = $conn->query("SELECT * FROM site__site_uri s LEFT JOIN operations_site os ON s.entity_id = os.sid WHERE site_uri_value = 'http://{$uri}' ORDER BY entity_id DESC")->fetch();
+$config['site.settings']['site_manager']['api_url'] = $site_manager_uri;
 
-  // Set database name, if it exists.
-  if (!empty($site_data['database_name'])) {
-    $database = $site_data['database_name'];
-    $new_username = 'db';
-    $new_password = 'db';
-    $databases['default']['default']['database'] = $site_data['database_name'];
+// Currently requested URL.
+$uri = trimUrl($_SERVER['HTTP_HOST']);
 
-    // @TODO: Run this when a hosted_site entity is created.
-    if (!empty($_GET['create'])) {
-      $root_username = 'root';
-      $root_password = 'root';
+// If not on site manager site, alter config.
+if ($site_manager_uri != $uri) {
 
-      $conn = new PDO("mysql:host=$database_hostname", $root_username, $root_password);
+  try {
+    $database_hostname = $databases['default']['default']['host'];
+    $username = 'db';
+    $password = 'db';
+    $database = 'db';
 
-      $conn->query("CREATE DATABASE IF NOT EXISTS {$database} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
-      $conn->query("GRANT ALL ON $database.* TO '$new_username'@'%' IDENTIFIED BY '$new_password'");
+    // Lookup site based on URI.
+    $conn = new PDO("mysql:host=$database_hostname;dbname=$database", $username, $password);
+
+    $sql = "SELECT * FROM site__site_uri s LEFT JOIN operations_site os ON s.entity_id = os.sid WHERE site_uri_value IN (:site_url, :site_url_https) AND s.bundle = 'hosted_site' ORDER BY entity_id DESC";
+
+    $query = $conn->prepare($sql, []);
+    $query->execute([
+      ':site_url' => 'http://' . $uri,
+      ':site_url_https' => 'https://' . $uri,
+    ]);
+    $site_data = $query->fetch();
+
+
+    // If fully empty, there is no site.
+    if (!$site_data) {
+      header('Location: https://launchpad.local.computer/404?uri=' . $uri);
+    }
+    // Set database credentials, if database_name is found.
+    elseif ($site_data['database_name']) {
+      $database = $site_data['database_name'];
+      $new_username = 'db';
+      $new_password = 'db';
+      $databases['default']['default']['database'] = $site_data['database_name'];
     }
 
-    $config['system.site']['site_name'] = 'HELLO NURSE!';
+  } catch (PDOException $e) {
+    throw $e;
   }
-
-} catch (PDOException $e) {
-
-  // If unable to create or grant, don't change anything.
-  throw $e;
 }
 
 $site = $_SERVER['HTTP_HOST'];
@@ -944,3 +953,15 @@ $settings['file_temp_path'] = '/tmp/';
 
 #make sure this is different for every site using this codebase.
 $settings['hash_salt'] .= $site;
+
+/**
+ * Trim a URL down to match HTTP_HOST.
+ * @param $url
+ * @return string
+ */
+function trimUrl($url) {
+  return trim(strtr($url, [
+    'http://' => '',
+    'https://' => '',
+  ]), " \n\r\t\v\0/");
+}
