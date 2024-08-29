@@ -25,17 +25,20 @@ final class HostedSite extends HostedSiteBase {
       ->setRequired(true)
       ->setReadOnly(true)
       ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayOptions('form', [
-        'type' => 'string_textfield',
-      ])
-      ->setDisplayConfigurable('view', TRUE)
-      ->setDisplayOptions('view', [
-        'label' => 'inline',
-        'type' => 'string',
-      ])
       ->addConstraint('HostingSiteDatabaseExists')
+      ->setDefaultValueCallback('Drupal\hosting_site\Entity\SiteEntity\HostedSite::defaultDatabaseName')
   ;
 
     return $fields;
+  }
+
+  /**
+   * Generate a database name for the field.
+   * @return string
+   * @throws \Random\RandomException
+   */
+  static public function defaultDatabaseName() {
+    $bytes = random_bytes(16);
+    return bin2hex($bytes);
   }
 }
