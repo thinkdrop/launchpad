@@ -934,10 +934,11 @@ if ($site_manager_uri != $uri) {
     }
     // Set database credentials, if database_name is found.
     elseif ($site_data['database_name']) {
-      $database = $site_data['database_name'];
+      // @TODO: This should be saved into the database this way.
+      $new_database_name = preg_replace("/[^a-zA-Z]+/", "", $site_data['database_name']);
       $new_username = 'db';
       $new_password = 'db';
-      $databases['default']['default']['database'] = $site_data['database_name'];
+      $databases['default']['default']['database'] = $new_database_name;
     }
 
   } catch (PDOException $e) {
