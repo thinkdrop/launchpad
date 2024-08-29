@@ -33,6 +33,7 @@ final class HostedSite extends HostedSiteBase {
         'label' => 'inline',
         'type' => 'string',
       ])
+      ->addConstraint('HostingSiteDatabaseExists')
   ;
 
     return $fields;
