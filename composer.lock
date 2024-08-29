@@ -2187,7 +2187,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/site.git",
-                "reference": "3f20b62752334314944523d67f79bac842eab06c"
+                "reference": "4b1a0bde0a3e0612f44de65f79b617c12f15aef5"
             },
             "require": {
                 "drupal/admin_toolbar": "^3.4",
@@ -2202,8 +2202,8 @@
                     "dev-2.x": "2.x-dev"
                 },
                 "drupal": {
-                    "version": "2.2.0-rc3+9-dev",
-                    "datestamp": "1716576509",
+                    "version": "2.2.0-rc3+10-dev",
+                    "datestamp": "1724953071",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
