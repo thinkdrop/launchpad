@@ -92,7 +92,7 @@ final class CreateSiteForm extends FormBase {
    * @return string
    */
   private function getFullUrl($code) {
-    return 'https://' . $code . '.' . $this->getBaseTld();
+    return 'http://' . $code . '.' . $this->getBaseTld();
   }
 
 }
