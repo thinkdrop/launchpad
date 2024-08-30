@@ -7,7 +7,7 @@ on:
 jobs:
   cron:
     name: Cron
-    runs-on: servers.prod.thinkdrop.net
+    runs-on: platform@prod.servers.thinkdrop.net
     steps:
 
       - name: Set environment

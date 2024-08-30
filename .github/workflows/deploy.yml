@@ -30,6 +30,7 @@ jobs:
 
     # Use a matrix for deploying multiple sites.
     strategy:
+      fail-fast: false
       matrix:
         include:
 

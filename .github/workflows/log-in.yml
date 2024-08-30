@@ -1,0 +1,28 @@
+name: Log In
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        required: true
+        type: string
+
+jobs:
+  cron:
+    name: Request link
+    runs-on: platform@prod.servers.thinkdrop.net
+    steps:
+
+      - name: Set environment
+        run: |
+          echo "DDEV_PROJECT_PATH_FULL=$HOME/Sites/${{ github.repository }}/live" >> "$GITHUB_ENV"
+
+      - name: Request login link
+        working-directory: ${{ env.DDEV_PROJECT_PATH_FULL }}
+        run: |
+          if [[ "${{ inputs.username }}" == "admin" ]]
+          then
+            echo "Admin login not allowed."
+            exit 1
+          else
+            ddev drush uli --name="${{ inputs.username }}" --uri=www.thinkdrop.net
+          fi

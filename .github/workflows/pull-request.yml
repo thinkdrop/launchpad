@@ -8,7 +8,7 @@ env:
   # Used only for "job.environment" setting.
   # Must match $DDEV_PROJECT_NAME.$DDEV_PROJECT_TLD for github environment links to work.
   # @TODO: Update when on live server.
-  DDEV_PROJECT_DOMAIN: ${{ github.event.repository.name }}.pr${{ github.event.number }}.ci.launchpad.thinkdrop.net
+  DDEV_PROJECT_DOMAIN: ${{ github.event.repository.name }}.pr${{ github.event.number }}.ci.thinkdrop.net
   DDEV_PROJECT_PATH: "Sites/${{ github.repository }}/pr${{ github.event.number }}"
 
   # Just to make sure the github runner user's PATH is set right.
@@ -21,7 +21,7 @@ jobs:
       name: ${{ github.event.repository.name }}/pr${{ github.event.number }}
       url: http://${{ env.DDEV_PROJECT_DOMAIN }}?${{ github.run_id }}
     # This tells github what runner to run this job on. Make sure your runner is configured to use this label.
-    runs-on: servers.prod.thinkdrop.net
+    runs-on: platform@prod.servers.thinkdrop.net
     steps:
 
       - name: Deploy site
@@ -35,7 +35,7 @@ jobs:
             ddev drush sql:query --file ../database.sql
   test:
     name: Run Tests
-    runs-on: servers.prod.thinkdrop.net
+    runs-on: platform@prod.servers.thinkdrop.net
     needs: deploy
     steps:
       - name: Set environment
