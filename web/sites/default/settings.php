@@ -899,7 +899,7 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
 }
 
 // Configure Site to connect to Site Manager.
-$site_manager_uri = trimUrl(getenv('SITE_MANAGER_API_URL') ?: 'launchpad.local.computer');
+$site_manager_uri = trimUrl(getenv('LAUNCHPAD_SITE_MANAGER_DOMAIN') ?: 'launchpad.local.computer');
 
 $config['site.settings']['site_manager']['api_url'] = $site_manager_uri;
 
