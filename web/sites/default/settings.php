@@ -945,7 +945,8 @@ if ($site_manager_uri != $uri) {
     }
 
   } catch (PDOException $e) {
-    throw $e;
+    // throw $e;
+    // Don't throw here so we get redirected to install.
   }
 }
 
