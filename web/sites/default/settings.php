@@ -904,7 +904,7 @@ $site_manager_uri = trimUrl(getenv('SITE_MANAGER_API_URL') ?: 'launchpad.local.c
 $config['site.settings']['site_manager']['api_url'] = $site_manager_uri;
 
 // Set multisite hosting tld.
-$config['hosting_site']['multisite_tld'] = 'launchpad.local.computer';
+$config['hosting_site']['multisite_tld'] = $site_manager_uri;
 
 // Currently requested URL.
 $uri = trimUrl($_SERVER['HTTP_HOST']);
@@ -933,7 +933,7 @@ if ($site_manager_uri != $uri) {
 
     // If fully empty, there is no site.
     if (!$site_data) {
-      header('Location: https://launchpad.local.computer/404?uri=' . $uri);
+      header('Location: ' . $site_manager_uri . '/404?uri=' . $uri);
     }
     // Set database credentials, if database_name is found.
     elseif ($site_data['database_name']) {
