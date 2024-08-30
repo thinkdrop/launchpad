@@ -60,7 +60,7 @@ jobs:
 
           # Remove this after the env is created so live sites don't run ddev start.
           ddev-start: "yes"
-          ddev-project-name: "thinkdrop.${{ matrix.name }}"
+          ddev-project-name: "${{ matrix.project }}.${{ matrix.name }}"
 
           ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
