@@ -60,6 +60,7 @@ final class CreateSiteForm extends FormBase {
     }
 
     $site = HostedSite::create([
+      'type' => 'hosted_drupal_site',
       'site_uri' => $full_url,
     ]);
 
