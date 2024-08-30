@@ -1,0 +1,13 @@
+uuid: 2f5cd59d-1607-4b5e-97b2-f888b44b8370
+langcode: en
+status: true
+dependencies:
+  module:
+    - site
+_core:
+  default_config_hash: Tqn2AaumiSMWLgKk2Ay5IMlBC5XfNjIFs0A3rXj-dZI
+id: project.full
+label: Full
+description: ''
+targetEntityType: project
+cache: true

@@ -1,0 +1,13 @@
+uuid: 92bbf9cf-4a15-4664-b882-7e5297695b96
+langcode: en
+status: true
+dependencies:
+  module:
+    - site
+_core:
+  default_config_hash: mRo8N6xFJQBX6vdpe_3_1uiqCWgQ0vhj1q8rIAM8tNk
+id: site.teaser
+label: Teaser
+description: ''
+targetEntityType: site
+cache: true

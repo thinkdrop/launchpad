@@ -1,0 +1,13 @@
+uuid: 990d7842-3751-476f-986d-d188d2e7210e
+langcode: en
+status: true
+dependencies: {  }
+id: hosted_site
+label: 'Hosted Site'
+description: ''
+help: ''
+label_collection: Sites
+label_singular: site
+label_plural: sites
+label_count_singular: '@count site'
+label_count_plural: '@count sites'

@@ -1,0 +1,46 @@
+_core:
+  default_config_hash: 4GIX5Esnc_umpXUBj4IIocRX7Mt5fPhm4AgXfE3E56E
+module:
+  admin_toolbar: 0
+  admin_toolbar_tools: 0
+  block: 0
+  breakpoint: 0
+  config: 0
+  contextual: 0
+  dblog: 0
+  devel: 0
+  devel_entity_updates: 0
+  dynamic_page_cache: 0
+  eva: 0
+  field: 0
+  field_ui: 0
+  file: 0
+  filter: 0
+  hosting_site: 0
+  jsonapi: 0
+  key_auth: 0
+  layout_builder: 0
+  layout_discovery: 0
+  link: 0
+  menu_link_content: 0
+  menu_ui: 0
+  mysql: 0
+  navigation: 0
+  navigation_top_bar: 0
+  options: 0
+  page_cache: 0
+  path_alias: 0
+  rest: 0
+  serialization: 0
+  site: 0
+  system: 0
+  text: 0
+  toolbar: 0
+  user: 0
+  views_ui: 0
+  views: 10
+  minimal: 1000
+theme:
+  stark: 0
+  claro: 0
+profile: minimal

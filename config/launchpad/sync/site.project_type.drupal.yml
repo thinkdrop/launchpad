@@ -1,0 +1,8 @@
+uuid: e6f4cda0-1b86-464b-8331-fa1ab2d433a3
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: ngh7PQYaRUIAtEvtpi8yRRjfSh-qlBDPPK2cGndkOxM
+id: drupal
+label: 'Drupal Project'

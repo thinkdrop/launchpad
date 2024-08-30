@@ -1,0 +1,39 @@
+_core:
+  default_config_hash: jdY7AU0tU-QsjmiOw3W8vwpYMb-By--_MSFgbqKUTYM
+definitions:
+  navigation__create__user:
+    enabled: false
+    menu_name: content
+    parent: navigation.create
+    weight: -49
+    expanded: false
+  navigation__content:
+    enabled: false
+    menu_name: content
+    parent: ''
+    expanded: false
+    weight: -47
+  navigation__files:
+    weight: -46
+    menu_name: content
+    parent: ''
+    expanded: false
+    enabled: false
+  navigation__create:
+    weight: -48
+    enabled: false
+    menu_name: content
+    parent: ''
+    expanded: false
+  user__logout:
+    menu_name: content
+    parent: ''
+    weight: 0
+    expanded: false
+    enabled: true
+  user__page:
+    enabled: false
+    menu_name: account
+    parent: ''
+    expanded: false
+    weight: -10

@@ -1,0 +1,13 @@
+uuid: 844867f9-a4a2-4d33-a218-dfe4be1b6451
+langcode: en
+status: true
+dependencies:
+  module:
+    - site
+_core:
+  default_config_hash: RSeavNZgfNKS6zMmwRD185Q0Hg3ETUlsFD2gLka8S-A
+id: site.full
+label: Full
+description: ''
+targetEntityType: site
+cache: true

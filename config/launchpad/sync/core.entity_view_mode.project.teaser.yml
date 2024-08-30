@@ -1,0 +1,13 @@
+uuid: 526cda28-fcfe-49df-8a22-c078da8b2949
+langcode: en
+status: true
+dependencies:
+  module:
+    - site
+_core:
+  default_config_hash: MRFlP86V2muivZ_5lBP8Jjv3CCIPK_zyP9Dhk79c4ZE
+id: project.teaser
+label: Teaser
+description: ''
+targetEntityType: project
+cache: true

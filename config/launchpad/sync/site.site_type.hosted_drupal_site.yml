@@ -1,0 +1,13 @@
+uuid: 23a8da07-4c58-4f7d-a654-9b2f892afa0f
+langcode: en
+status: true
+dependencies: {  }
+id: hosted_drupal_site
+label: 'Drupal Site'
+description: ''
+help: ''
+label_collection: Sites
+label_singular: site
+label_plural: sites
+label_count_singular: '@count site'
+label_count_plural: '@count sites'
