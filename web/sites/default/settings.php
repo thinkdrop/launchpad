@@ -921,7 +921,7 @@ if ($site_manager_uri != $uri) {
     // Lookup site based on URI.
     $conn = new PDO("mysql:host=$database_hostname;dbname=$database", $username, $password);
 
-    $sql = "SELECT * FROM site__site_uri s LEFT JOIN operations_site os ON s.entity_id = os.sid WHERE site_uri_value IN (:site_url, :site_url_https) AND s.bundle = 'hosted_site' ORDER BY entity_id DESC";
+    $sql = "SELECT * FROM site__site_uri s LEFT JOIN operations_site os ON s.entity_id = os.sid WHERE site_uri_value IN (:site_url, :site_url_https) AND s.bundle = 'hosted_drupal_site' ORDER BY entity_id DESC";
 
     $query = $conn->prepare($sql, []);
     $query->execute([
@@ -929,7 +929,6 @@ if ($site_manager_uri != $uri) {
       ':site_url_https' => 'https://' . $uri,
     ]);
     $site_data = $query->fetch();
-
 
     // If fully empty, there is no site.
     if (!$site_data) {
@@ -943,12 +942,12 @@ if ($site_manager_uri != $uri) {
       $new_password = 'db';
       $databases['default']['default']['database'] = $new_database_name;
     }
-
   } catch (PDOException $e) {
     // throw $e;
     // Don't throw here so we get redirected to install.
   }
 }
+
 
 $site = $_SERVER['HTTP_HOST'];
 
