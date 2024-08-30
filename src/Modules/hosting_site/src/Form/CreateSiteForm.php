@@ -6,6 +6,7 @@ namespace Drupal\hosting_site\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\hosting_site\Entity\SiteEntity\HostedDrupalSite;
 use Drupal\hosting_site\Entity\SiteEntity\HostedSite;
 use Drupal\site\Entity\SiteEntity;
 
@@ -59,7 +60,7 @@ final class CreateSiteForm extends FormBase {
       $form_state->setErrorByName('code', $this->t('The site name %name is not available.', ['%name' => $form_state->getValue('name')]));
     }
 
-    $site = HostedSite::create([
+    $site = HostedDrupalSite::create([
       'type' => 'hosted_drupal_site',
       'site_uri' => $full_url,
     ]);

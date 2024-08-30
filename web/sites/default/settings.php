@@ -921,7 +921,7 @@ if ($site_manager_uri != $uri) {
     // Lookup site based on URI.
     $conn = new PDO("mysql:host=$database_hostname;dbname=$database", $username, $password);
 
-    $sql = "SELECT * FROM site__site_uri s LEFT JOIN operations_site os ON s.entity_id = os.sid WHERE site_uri_value IN (:site_url, :site_url_https) AND s.bundle = 'hosted_site' ORDER BY entity_id DESC";
+    $sql = "SELECT * FROM site__site_uri s LEFT JOIN operations_site os ON s.entity_id = os.sid WHERE site_uri_value IN (:site_url, :site_url_https) AND s.bundle = 'hosted_drupal_site' ORDER BY entity_id DESC";
 
     $query = $conn->prepare($sql, []);
     $query->execute([
