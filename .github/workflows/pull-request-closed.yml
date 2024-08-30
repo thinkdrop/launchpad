@@ -1,0 +1,24 @@
+name: Destroy Environment
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  destroy:
+    name: Destroy Environment
+    runs-on: servers.prod.thinkdrop.net
+    steps:
+      - name: Set environment
+        run: |
+          echo "DDEV_PROJECT_PATH_FULL=$HOME/Sites/${{ github.repository }}/pr${{ github.event.number }}" >> "$GITHUB_ENV"
+      - name: Remove site data
+        working-directory: ${{ env.DDEV_PROJECT_PATH_FULL }}
+        run: |
+          ddev remove --remove-data --omit-snapshot
+
+      - name: Remove code
+        working-directory: ${{ env.DDEV_PROJECT_PATH_FULL }}
+        run: |
+          rm -rf ${{ env.DDEV_PROJECT_PATH_FULL }}

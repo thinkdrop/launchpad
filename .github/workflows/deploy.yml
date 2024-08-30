@@ -1,0 +1,66 @@
+name: Deploy Environments
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      # Remove before merge.
+      - feature/deploy-matrix
+
+env:
+
+  # Used only for "job.environment" setting.
+  # Must match $DDEV_PROJECT_NAME.$DDEV_PROJECT_TLD for github environment links to work.
+  # @TODO: Update when on live server.
+#  DDEV_PROJECT_DOMAIN: ${{ github.event.repository.name }}.pr${{ github.event.number }}.local.computer
+#  DDEV_PROJECT_PATH: "Sites/${{ github.repository }}/"
+
+  # Just to make sure the github runner user's PATH is set right.
+  PATH: /usr/bin:/usr/local/bin:/snap/bin
+
+jobs:
+  deploy:
+    name: Deploy to ${{ matrix.name }}
+    environment:
+      name: thinkdrop.${{ matrix.name }}
+      url: http://${{ matrix.name }}.thinkdrop.net
+
+    # @TODO: Launch live runner.
+    # runs-on: live
+    runs-on: servers.prod.thinkdrop.net
+
+    # Use a matrix for deploying multiple sites.
+    strategy:
+      matrix:
+        include:
+
+          - name: live
+            path: "Sites/${{ github.repository }}/live"
+            domains: "www.thinkdrop.net,live.thinkdrop.net"
+            git_reference: "main"
+
+#          - name: dev
+#            path: "Sites/${{ github.repository }}/dev"
+#            domains: "dev.thinkdrop.net"
+#            git_reference: main
+
+    steps:
+
+      - name: Deploy site
+        uses: operations-project/site-runner-ddev@main
+        with:
+          git-reference: ${{ matrix.git_reference }}
+          path: ${{ matrix.path }}
+
+          # While we are still hosted elsewhere, the live site should be synced.
+          # sync: "yes"
+
+          # Remove this after the env is created so live sites don't run ddev start.
+          ddev-start: "yes"
+          ddev-project-name: "thinkdrop.${{ matrix.name }}"
+
+          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+          ddev-fqdns: ${{ matrix.domains }}

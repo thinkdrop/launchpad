@@ -1,0 +1,21 @@
+name: Cron
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '45 * * * *'
+
+jobs:
+  cron:
+    name: Cron
+    runs-on: servers.prod.thinkdrop.net
+    steps:
+
+      - name: Set environment
+        run: |
+          echo "DDEV_PROJECT_PATH_FULL=$HOME/Sites/${{ github.repository }}/live" >> "$GITHUB_ENV"
+
+      - name: Run cron
+        working-directory: ${{ env.DDEV_PROJECT_PATH_FULL }}
+        run: |
+          ddev drush cron -v
+          ddev drush status

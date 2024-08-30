@@ -1,0 +1,61 @@
+name: Deploy Pull Request Environments
+
+on: [pull_request]
+
+# Prevents DDEV from writing to local hosts file.
+env:
+
+  # Used only for "job.environment" setting.
+  # Must match $DDEV_PROJECT_NAME.$DDEV_PROJECT_TLD for github environment links to work.
+  # @TODO: Update when on live server.
+  DDEV_PROJECT_DOMAIN: ${{ github.event.repository.name }}.pr${{ github.event.number }}.ci.thinkdrop.net
+  DDEV_PROJECT_PATH: "Sites/${{ github.repository }}/pr${{ github.event.number }}"
+
+  # Just to make sure the github runner user's PATH is set right.
+  PATH: /usr/bin:/usr/local/bin:/snap/bin
+
+jobs:
+  deploy:
+    name: Deploy Site
+    environment:
+      name: ${{ github.event.repository.name }}/pr${{ github.event.number }}
+      url: http://${{ env.DDEV_PROJECT_DOMAIN }}?${{ github.run_id }}
+    # This tells github what runner to run this job on. Make sure your runner is configured to use this label.
+    runs-on: servers.prod.thinkdrop.net
+    steps:
+
+      - name: Deploy site
+        uses: operations-platform/ddev-site@main
+        with:
+          sync: yes
+          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          # Files sync doesn't work
+          sync-command: |
+            ddev drush @live sql:dump > database.sql
+            ddev drush sql:query --file ../database.sql
+  test:
+    name: Run Tests
+    runs-on: servers.prod.thinkdrop.net
+    needs: deploy
+    steps:
+      - name: Set environment
+        run: |
+          echo "DDEV_PROJECT_PATH_FULL=$HOME/$DDEV_PROJECT_PATH" >> "$GITHUB_ENV"
+
+      # Tests are failing before first load. Do a CURL to warm the caches.
+      - name: Pre-load URL
+        run: |
+          curl ${{ env.DDEV_PROJECT_DOMAIN }}
+
+      - name: Run Tests
+        working-directory: ${{ env.DDEV_PROJECT_PATH_FULL }}
+        run: |
+          ddev drush behat
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: behat-test-output
+          path: ${{ env.DDEV_PROJECT_PATH_FULL }}/web/sites/default/files/test_artifacts
