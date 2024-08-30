@@ -65,7 +65,7 @@ jobs:
           # sync: "yes"
 
           # Remove this after the env is created so live sites don't run ddev start.
-          ddev-start: "yes"
+          ddev-start: "true"
           ddev-project-name: "${{ matrix.project }}.${{ matrix.name }}"
 
           ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
