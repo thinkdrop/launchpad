@@ -950,13 +950,16 @@ if ($site_manager_uri != $uri) {
 }
 
 $site = $_SERVER['HTTP_HOST'];
-$settings['config_sync_directory'] = '../config/' . $site . '/sync';
-$settings['file_public_path'] = 'files/' . $site;
-$settings['file_private_path'] = '../private/' . $site;
+
+list($code) = explode('.', $_SERVER['HTTP_HOST']);
+
+$settings['config_sync_directory'] = '../config/' . $code . '/sync';
+$settings['file_public_path'] = 'files/' . $code;
+$settings['file_private_path'] = '../private/' . $code;
 $settings['file_temp_path'] = '/tmp/';
 
 #make sure this is different for every site using this codebase.
-$settings['hash_salt'] .= $site;
+$settings['hash_salt'] .= $code;
 
 // Setup "creator" drupal database credentials
 // @TODO: Store this in config.
