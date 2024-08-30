@@ -5,8 +5,6 @@ on:
   push:
     branches:
       - main
-      # Remove before merge.
-      - feature/deploy-matrix
 
 env:
 
@@ -23,12 +21,12 @@ jobs:
   deploy:
     name: Deploy to ${{ matrix.name }}
     environment:
-      name: thinkdrop.${{ matrix.name }}
-      url: http://${{ matrix.name }}.thinkdrop.net
+      name: ${{ matrix.project }}.${{ matrix.name }}
+      url: http://${{ matrix.domain }}
 
     # @TODO: Launch live runner.
     # runs-on: live
-    runs-on: servers.prod.thinkdrop.net
+    runs-on: platform@prod.servers.thinkdrop.net
 
     # Use a matrix for deploying multiple sites.
     strategy:
@@ -36,9 +34,12 @@ jobs:
         include:
 
           - name: live
+            project: launchpad
             path: "Sites/${{ github.repository }}/live"
-            domains: "www.thinkdrop.net,live.thinkdrop.net"
+            domain: "launchpad.thinkdrop.net"
+            domains: "launchpad.thinkdrop.net"
             git_reference: "main"
+            runner: platform@prod.servers.thinkdrop.net
 
 #          - name: dev
 #            path: "Sites/${{ github.repository }}/dev"
